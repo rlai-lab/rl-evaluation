@@ -1,0 +1,41 @@
+[tool]
+[tool.commitizen]
+name = "cz_conventional_commits"
+version = "0.0.0"
+tag_format = "$version"
+version_files = ["pyproject.toml"]
+
+[tool.pdm]
+[[tool.pdm.source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[tool.pdm.dev-dependencies]
+dev = [
+    "mypy",
+    "flake8",
+    "commitizen",
+    "pre-commit",
+    "matplotlib",
+    "twine",
+]
+
+[tool.mypy]
+mypy_path = "typings"
+
+[project]
+name = "RlEvaluation-andnp"
+version = "0.0.0"
+description = "A set of evaluation and analysis tools for RL research."
+authors = [
+    {name = "Andy Patterson", email = "andnpatterson@gmail.com"},
+]
+dependencies = []
+requires-python = ">=3.8"
+readme = "README.md"
+license = {text = "MIT"}
+
+[build-system]
+requires = ["pdm-pep517>=1.0.0"]
+build-backend = "pdm.pep517.api"
