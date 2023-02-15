@@ -1,5 +1,5 @@
 # from typing import Callable
-from typing import Any, Callable, overload, TypeVar
+from typing import Any, Callable, overload, TypeVar, Sequence
 
 T = TypeVar('T')
 
@@ -11,3 +11,6 @@ def njit(f: T, cache: bool = False, parallel: bool = False, nogil: bool = False,
 def jit(cache: bool, forceobj: bool) -> Callable[[T], T]: ...
 
 def vectorize(f: Any, cache: bool) -> Any: ...
+
+
+def prange(end: int) -> Sequence[int]: ...
