@@ -23,7 +23,7 @@ def selectBestHypers(df: pd.DataFrame, column: str, prefer: Preference, reducer:
     else:
         raise UnknownPreferenceException()
 
-    return df.iloc[[best_idx]]
+    return df.iloc[[int(best_idx)]]
 
 def sliceOverHyper(df: pd.DataFrame, hyper: str):
     values = df[hyper].unique()
