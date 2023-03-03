@@ -1,7 +1,8 @@
 import pandas as pd
 import enum
 from typing import cast, Any
-from RlEvaluation._utils.data import Reducer
+from RlEvaluation._utils.numba import over_first_axis
+from RlEvaluation._utils.data import Reducer, normalizeDataType
 from RlEvaluation.utils.math import mean
 from RlEvaluation.tools import subsetDF
 
@@ -11,8 +12,9 @@ class Preference(enum.Enum):
 
 def selectBestHypers(df: pd.DataFrame, column: str, prefer: Preference, reducer: Reducer = mean):
     f = cast(Any, reducer)
+    data = normalizeDataType(df, 2, col=column)
     # TODO: report uncertainty in hyper selection
-    reduced = df[column].apply(f)
+    reduced = over_first_axis(data, f)
 
     if prefer == Preference.high:
         best_idx = reduced.argmax()
@@ -21,7 +23,7 @@ def selectBestHypers(df: pd.DataFrame, column: str, prefer: Preference, reducer:
     else:
         raise UnknownPreferenceException()
 
-    return df.iloc[best_idx]
+    return df.iloc[[best_idx]]
 
 def sliceOverHyper(df: pd.DataFrame, hyper: str):
     values = df[hyper].unique()

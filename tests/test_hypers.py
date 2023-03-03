@@ -12,7 +12,9 @@ class TestHypers(unittest.TestCase):
 
         best = selectBestHypers(test_data, 'result', Preference.high)
         self.assertIsInstance(best, pd.DataFrame)
-        pd.testing.assert_frame_equal(best, pd.DataFrame({
-            'alpha': [0.001],
-            'result': [2],
-        }))
+
+        expected = pd.DataFrame({
+            'alpha': 0.001,
+            'result': 2,
+        }, index=[2])
+        pd.testing.assert_frame_equal(best, expected)
