@@ -63,6 +63,9 @@ class ResultData:
         data = np.asarray(data)
         return Intervals.bootstrap(data)
 
+    def get_at_idx(self, idx: int):
+        return self._data.iloc[idx]
+
     # --------------
     # -- Internal --
     # --------------
