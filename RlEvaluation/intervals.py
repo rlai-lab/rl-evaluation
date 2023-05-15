@@ -1,24 +1,24 @@
 import numpy as np
 from numba import prange
-from RlEvaluation._utils.data import normalizeDataType, compileReducer, Data, Reducer
+from RlEvaluation._utils.data import compileReducer, Reducer
 from RlEvaluation._utils.jit import try2pjit
 
 RandomState = np.random.RandomState
 
-def bootstrap(data: Data, column: str = '', statistic: Reducer = np.mean, coverage: float = 0.95, bootstraps: int = 10000, rng: RandomState = RandomState()):
-    data = normalizeDataType(data, dims=2, col=column)
+def bootstrap(data: np.ndarray, statistic: Reducer = np.mean, coverage: float = 0.95, bootstraps: int = 2000, rng: np.random.Generator | None = None):
+    rng = rng or np.random.default_rng()
+    assert data.ndim == 2
 
     return _bootstrap(
         data=data,
         statistic=compileReducer(statistic),
         coverage=coverage,
         bootstraps=bootstraps,
-        seed=rng.randint(2**32),
+        rng=rng,
     )
 
 @try2pjit
-def _bootstrap(data: np.ndarray, statistic: Reducer, coverage: float, bootstraps: int, seed: int):
-    np.random.seed(seed)
+def _bootstrap(data: np.ndarray, statistic: Reducer, coverage: float, bootstraps: int, rng: np.random.Generator):
     samples, measurements = data.shape
 
     alpha = (1 - coverage) / 2
