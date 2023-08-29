@@ -1,9 +1,12 @@
 import numpy as np
+import numba
+
+from functools import partial
 from typing import Any
-from RlEvaluation._utils.jit import try2jit
 
+njit = partial(numba.njit, fastmath=True, nogil=True, cache=True)
 
-@try2jit
+@njit(cache=False)
 def over_first_axis(data: np.ndarray, f: Any):
     out = np.empty(data.shape[0])
     for i in range(data.shape[0]):
