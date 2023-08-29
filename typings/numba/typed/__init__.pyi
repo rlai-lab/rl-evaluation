@@ -1,1 +1,8 @@
-from typing import List as List
+from typing import List as _List
+from typing import TypeVar
+
+T = TypeVar('T')
+
+class List(_List[T]):
+    def __init__(self):
+        ...
