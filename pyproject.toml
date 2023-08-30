@@ -13,12 +13,12 @@ name = "pypi"
 
 [tool.pdm.dev-dependencies]
 dev = [
-    "mypy",
     "flake8",
     "commitizen",
     "pre-commit",
     "matplotlib",
     "twine",
+    "pyright>=1.1.324",
 ]
 
 [tool.mypy]

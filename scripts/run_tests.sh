@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-mypy -p RlEvaluation
+pyright --stats
 
 export PYTHONPATH=RlEvaluation
 python3 -m unittest discover -p "*test_*.py"
