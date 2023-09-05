@@ -1,7 +1,7 @@
 [tool]
 [tool.commitizen]
 name = "cz_conventional_commits"
-version = "1.0.0"
+version = "1.1.0"
 tag_format = "$version"
 version_files = ["pyproject.toml"]
 
@@ -27,7 +27,7 @@ ignore_missing_imports = true
 
 [project]
 name = "RlEvaluation"
-version = "1.0.0"
+version = "1.1.0"
 description = ""
 authors = [
     {name = "Andy Patterson", email = "andnpatterson@gmail.com"},
