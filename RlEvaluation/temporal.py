@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 
 from numba import prange
-from typing import Any, List, Tuple, NamedTuple
+from typing import Any, List, Sequence, Tuple, NamedTuple
 from RlEvaluation.config import DataDefinition, maybe_global
 from RlEvaluation.interpolation import Interpolation
 from RlEvaluation.utils.pandas import subset_df
@@ -48,6 +48,30 @@ def extract_learning_curves(
         ys.append(y)
 
     return xs, ys
+
+def extract_multiple_learning_curves(
+    df: pd.DataFrame,
+    hyper_vals: Sequence[Tuple[Any, ...]],
+    metric: str,
+    data_definition: DataDefinition | None = None,
+    interpolation: Interpolation | None = None,
+):
+    out_xs = []
+    out_ys = []
+
+    for hypers in hyper_vals:
+        xs, ys = extract_learning_curves(
+            df,
+            hypers,
+            metric,
+            data_definition,
+            interpolation,
+        )
+
+        out_xs += xs
+        out_ys += ys
+
+    return out_xs, out_ys
 
 @nbu.njit(parallel=True)
 def curve_percentile_bootstrap_ci(
