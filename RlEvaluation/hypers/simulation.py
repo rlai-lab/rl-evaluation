@@ -4,7 +4,7 @@ import RlEvaluation._utils.numba as nbu
 from numba.typed import List as NList
 from typing import Any, NamedTuple, Tuple
 
-from RlEvaluation.statistics import stratified_percentile_bootstrap_ci
+from RlEvaluation.backend.statistics import stratified_percentile_bootstrap_ci
 from RlEvaluation.hypers.utils import idx_preference
 
 

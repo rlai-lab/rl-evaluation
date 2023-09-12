@@ -5,23 +5,26 @@ import enum
 import numpy as np
 import pandas as pd
 
-from numba import prange
-from typing import Any, List, Sequence, Tuple, NamedTuple
+from typing import Any, List, Sequence, Tuple
 from RlEvaluation.config import DataDefinition, maybe_global
 from RlEvaluation.interpolation import Interpolation
+from RlEvaluation.statistics import Statistic
 from RlEvaluation.utils.pandas import subset_df
 
-import RlEvaluation.statistics as Statistics
-import RlEvaluation._utils.numba as nbu
+import RlEvaluation.backend.temporal as bt
 
-def mean(data: np.ndarray):
-    assert len(data.shape) == 2
-    return np.nanmean(data, axis=1)
-
+# ------------------------
+# -- Temporal Summaries --
+# ------------------------
 
 class TimeSummary(enum.Enum):
-    mean = enum.member(mean)
+    mean = enum.member(bt.mean)
+    sum = enum.member(bt.agg)
 
+
+# ---------------------
+# -- Data Management --
+# ---------------------
 
 def extract_learning_curves(
     df: pd.DataFrame,
@@ -38,8 +41,9 @@ def extract_learning_curves(
     xs: List[np.ndarray] = []
     ys: List[np.ndarray] = []
     for _, group in groups:
-        x = group[dd.time_col].to_numpy()
-        y = group[metric].to_numpy()
+        non_na = group[group[metric].notna()]
+        x = non_na[dd.time_col].to_numpy()
+        y = non_na[metric].to_numpy()
 
         if interpolation is not None:
             x, y = interpolation(x, y)
@@ -73,39 +77,22 @@ def extract_multiple_learning_curves(
 
     return out_xs, out_ys
 
-@nbu.njit(parallel=True)
+# -----------------------------
+# -- Statistical Simulations --
+# -----------------------------
+
 def curve_percentile_bootstrap_ci(
     rng: np.random.Generator,
     y: np.ndarray,
-    statistic: Any,
+    statistic: Statistic = Statistic.mean,
     alpha: float = 0.05,
     iterations: int = 10000,
 ):
-    n_measurements = y.shape[1]
-
-    lo = np.empty(n_measurements, dtype=np.float64)
-    center = np.empty(n_measurements, dtype=np.float64)
-    hi = np.empty(n_measurements, dtype=np.float64)
-
-    for i in prange(n_measurements):
-        res = Statistics.percentile_bootstrap_ci(
-            rng,
-            y[:, i],
-            statistic=statistic,
-            alpha=alpha,
-            iterations=iterations,
-        )
-
-        lo[i] = res.ci[0]
-        center[i] = res.sample_stat
-        hi[i] = res.ci[1]
-
-    return CurvePercentileBootstrapResult(
-        sample_stat=center,
-        ci=(lo, hi),
+    f: Any = statistic.value
+    return bt.curve_percentile_bootstrap_ci(
+        rng=rng,
+        y=y,
+        statistic=f,
+        alpha=alpha,
+        iterations=iterations,
     )
-
-
-class CurvePercentileBootstrapResult(NamedTuple):
-    sample_stat: np.ndarray
-    ci: Tuple[np.ndarray, np.ndarray]
