@@ -33,9 +33,7 @@ def subset_df(df: pd.DataFrame, cols: Sequence[str], vals: Sequence[Any]):
 
 def build_mask(df: pd.DataFrame, cols: Sequence[str], vals: Sequence[Any]):
     it = zip(cols, vals)
-    c, v = next(it)
-
-    mask = df[c] == v
+    mask = np.ones(len(df), dtype=bool)
     for c, v in it:
         mask = mask & ((df[c] == v) | df[c].isna())
 
@@ -49,6 +47,9 @@ def build_mask_from_dict(df: pd.DataFrame, conds: Dict[str, Any]):
 
         elif isinstance(cond, list):
             mask = mask & (df[key].isin(cond))
+
+        elif isinstance(cond, float) and np.isnan(cond):
+            mask = mask & (df[key].isna())
 
         else:
             mask = mask & (df[key] == cond)
