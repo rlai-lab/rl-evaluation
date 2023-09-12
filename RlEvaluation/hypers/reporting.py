@@ -1,7 +1,7 @@
 import numpy as np
 from RlEvaluation.hypers.api import HyperSelectionResult
 from RlEvaluation.config import DataDefinition, maybe_global
-
+from RlEvaluation._utils.TerminalTable import TerminalTable
 
 def pretty_print(result: HyperSelectionResult, d: DataDefinition | None = None):
     if isinstance(result, HyperSelectionResult):
@@ -31,6 +31,8 @@ def pretty_print_hyper_selection_result(result: HyperSelectionResult, d: DataDef
     out += '---------------------------\n\n'
 
     if len(result.uncertainty_set_probs) > 1:
+        table = TerminalTable()
+        table.add_row_headers(d.hyper_cols)
         out += 'Possible best configurations:\n'
         out += '-----------------------------\n'
         for i, hyper in enumerate(d.hyper_cols):
