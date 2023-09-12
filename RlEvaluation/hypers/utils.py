@@ -18,7 +18,7 @@ def group_measurements(df: pd.DataFrame, metric: str, data_definition: DataDefin
 
         seed_data = []
         for _, run_data in group.groupby(dd.seed_col):
-            seed_data.append(run_data[metric].to_numpy(dtype=np.float64))
+            seed_data.append(run_data[metric].dropna().to_numpy(dtype=np.float64))
 
         idx2measurements[i] = npu.pad_stack(seed_data, fill_value=np.nan)
 
