@@ -36,6 +36,7 @@ dependencies = [
     "pandas>=1.5.3",
     "numba>=0.57.0",
     "numpy>=1.23.5",
+    "scipy>=1.9.3",
 ]
 requires-python = ">=3.11"
 readme = "README.md"

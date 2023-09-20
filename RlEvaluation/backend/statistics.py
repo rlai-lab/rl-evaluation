@@ -1,8 +1,9 @@
 import numpy as np
+import numba as nb
 import RlEvaluation._utils.numba as nbu
 
+from scipy.stats import binom
 from typing import Any, Callable, List, NamedTuple, Tuple
-
 
 # ----------------------
 # -- Basic Statistics --
@@ -89,3 +90,57 @@ def stratified_percentile_bootstrap_ci(
 class PercentileBootstrapResult(NamedTuple):
     sample_stat: float
     ci: Tuple[float, float]
+
+# -------------------------
+# -- Tolerance Intervals --
+# -------------------------
+
+@nbu.njit
+def tolerance_interval_curve(
+    data: np.ndarray,
+    alpha: float = 0.05,
+    beta: float = 0.9,
+):
+    n = data.shape[0]
+    l, u = get_tolerance_indices(n, alpha, beta)
+
+    out = np.empty((2, data.shape[1]))
+
+    for i in range(data.shape[1]):
+        s = np.sort(data[:, i])
+
+        out[0, i] = s[l]
+        out[1, i] = s[u]
+
+    return ToleranceIntervalCurveResult(
+        ti=out
+    )
+
+
+class ToleranceIntervalCurveResult(NamedTuple):
+    ti: np.ndarray
+
+
+@nbu.njit
+def get_tolerance_indices(n: int, alpha: float, beta: float):
+    # we cannot jit compile most things from scipy.stats
+    # so perform a callback to the python interpreter to obtain this value
+    y = 0.
+    with nb.objmode(y='float64'):
+        y = ppf(n, alpha, beta)
+
+    nu = int(n - y)
+
+    # figure out indices
+    if nu % 2 == 0:
+        l = int(nu / 2)
+        u = int(n - (nu / 2)) - 1
+    else:
+        nu1 = (nu / 2) - (1 / 2)
+        l = int(nu1)
+        u = int(n - (nu1 + 1))
+
+    return l, u
+
+def ppf(n: int, alpha: float, beta: float):
+    return binom.ppf(1 - alpha, n, beta)
