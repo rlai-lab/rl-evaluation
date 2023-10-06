@@ -42,8 +42,8 @@ def extract_learning_curves(
     ys: List[np.ndarray] = []
     for _, group in groups:
         non_na = group[group[metric].notna()]
-        x = non_na[dd.time_col].to_numpy()
-        y = non_na[metric].to_numpy()
+        x = non_na[dd.time_col].to_numpy().astype(np.int64)
+        y = non_na[metric].to_numpy().astype(np.float64)
 
         if interpolation is not None:
             x, y = interpolation(x, y)
