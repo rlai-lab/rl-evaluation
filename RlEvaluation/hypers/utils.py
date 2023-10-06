@@ -13,7 +13,9 @@ def group_measurements(df: pd.DataFrame, metric: str, data_definition: DataDefin
     idx2hypers: Dict[int, Any] = {}
     idx2measurements: Dict[int, np.ndarray] = {}
 
-    for i, (n, group) in enumerate(df.groupby(dd.hyper_cols, dropna=False)):
+    cols = set(dd.hyper_cols).intersection(df.columns)
+
+    for i, (n, group) in enumerate(df.groupby(list(cols), dropna=False)):
         idx2hypers[i] = n
 
         seed_data = []

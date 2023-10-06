@@ -35,6 +35,7 @@ def select_best_hypers(
     rng = np.random.default_rng(0)
     out = bootstrap_hyper_selection(rng, score_per_seed, statistic.value, prefer.value, threshold)
 
+    cols = set(dd.hyper_cols).intersection(df.columns)
     return HyperSelectionResult(
         best_configuration=groups.idx2hypers[out.best_idx],
         best_score=out.best_score,
@@ -45,6 +46,7 @@ def select_best_hypers(
         uncertainty_set_probs=out.uncertainty_set_probs,
         sample_stat=out.sample_stat,
         ci=out.ci,
+        config_params=list(cols),
     )
 
 class HyperSelectionResult(NamedTuple):
@@ -55,3 +57,4 @@ class HyperSelectionResult(NamedTuple):
     uncertainty_set_probs: np.ndarray
     sample_stat: float
     ci: Tuple[float, float]
+    config_params: List[str]

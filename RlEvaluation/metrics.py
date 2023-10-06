@@ -30,5 +30,8 @@ def _get_data_def_columns(df: pd.DataFrame, d: DataDefinition):
     if d.seed_col in df.columns:
         cols.append(d.seed_col)
 
-    cols += d.hyper_cols
+    for col in d.hyper_cols:
+        if col in df:
+            cols.append(col)
+
     return cols

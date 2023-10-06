@@ -13,14 +13,15 @@ def pretty_print(result: HyperSelectionResult, d: DataDefinition | None = None):
 def pretty_print_hyper_selection_result(result: HyperSelectionResult, d: DataDefinition | None = None):
     d = maybe_global(d)
 
-    col_len = max(map(len, d.hyper_cols))
+    cols = result.config_params
+    col_len = max(map(len, cols))
 
     out = ''
 
     # best hypers
     out += 'Best configuration setting:\n'
     out += '---------------------------\n'
-    for hyper, value in zip(d.hyper_cols, result.best_configuration):
+    for hyper, value in zip(cols, result.best_configuration):
         if isinstance(value, float) and np.isnan(value): continue
         ws = 4 + col_len - len(hyper)
         out += f'{hyper}:' + ' ' * ws
@@ -34,7 +35,7 @@ def pretty_print_hyper_selection_result(result: HyperSelectionResult, d: DataDef
     if len(result.uncertainty_set_probs) > 1:
         out += 'Possible best configurations:\n'
         out += '-----------------------------\n'
-        for i, hyper in enumerate(d.hyper_cols):
+        for i, hyper in enumerate(cols):
             hyper_val = result.uncertainty_set_configurations[0][i]
             if isinstance(hyper_val, float) and np.isnan(hyper_val): continue
             ws = 4 + col_len - len(hyper)

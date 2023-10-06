@@ -34,7 +34,8 @@ def extract_learning_curves(
     interpolation: Interpolation | None = None,
 ):
     dd = maybe_global(data_definition)
-    sub = subset_df(df, dd.hyper_cols, hyper_vals)
+    cols = set(dd.hyper_cols).intersection(df.columns)
+    sub = subset_df(df, list(cols), hyper_vals)
 
     groups = sub.groupby(dd.seed_col)
 
