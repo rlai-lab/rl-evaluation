@@ -17,8 +17,8 @@ def data_definition(
     hyper_cols: Iterable[str],
     seed_col: str = 'seed',
     time_col: str = 'frame',
-    environment_col: str = 'environment',
-    algorithm_col: str = 'algorithm',
+    environment_col: str | None = None,
+    algorithm_col: str | None = None,
 
     make_global: bool = False,
 ) -> DataDefinition:
