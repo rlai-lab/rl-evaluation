@@ -11,6 +11,7 @@ from RlEvaluation.interpolation import Interpolation
 from RlEvaluation.statistics import Statistic
 from RlEvaluation.utils.pandas import subset_df
 
+import RlEvaluation.backend.statistics as bs
 import RlEvaluation.backend.temporal as bt
 
 # ------------------------
@@ -37,7 +38,7 @@ def extract_learning_curves(
     cols = set(dd.hyper_cols).intersection(df.columns)
     sub = subset_df(df, list(cols), hyper_vals)
 
-    groups = sub.groupby(dd.seed_col)
+    groups = sub.groupby(dd.seed_col, dropna=False)
 
     xs: List[np.ndarray] = []
     ys: List[np.ndarray] = []
@@ -45,6 +46,12 @@ def extract_learning_curves(
         non_na = group[group[metric].notna()]
         x = non_na[dd.time_col].to_numpy().astype(np.int64)
         y = non_na[metric].to_numpy().astype(np.float64)
+
+        idx = np.argwhere(x[1:] <= x[:-1])
+
+        if idx:
+            x = x[:idx[0][0]]
+            y = y[:idx[0][0]]
 
         if interpolation is not None:
             x, y = interpolation(x, y)
@@ -96,4 +103,16 @@ def curve_percentile_bootstrap_ci(
         statistic=f,
         alpha=alpha,
         iterations=iterations,
+    )
+
+
+def curve_tolerance_interval(
+    y: np.ndarray,
+    alpha: float = 0.05,
+    beta: float = 0.9,
+):
+    return bs.tolerance_interval_curve(
+        y,
+        alpha,
+        beta,
     )

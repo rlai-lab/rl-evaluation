@@ -29,7 +29,7 @@ def bootstrap_hyper_selection(
 ) -> BootstrapHyperResult:
     n_hypers = len(score_per_seed)
 
-    out = np.empty(iterations, dtype=np.uint64)
+    out = np.empty(iterations, dtype=np.int64)
     out_scores = np.empty(iterations, dtype=np.float64)
 
     # simulate many possible hyper-search outcomes
@@ -69,7 +69,7 @@ def bootstrap_hyper_selection(
             unc_probs.append(p)
             unc_scores.append(score_per_seed[idx])
 
-    unc_set_idxs = np.array(unc_set, dtype=np.uint64)
+    unc_set_idxs = np.array(unc_set, dtype=np.int64)
     unc_set_probs = np.array(unc_probs, dtype=np.float64)
 
     bs_res = stratified_percentile_bootstrap_ci(
