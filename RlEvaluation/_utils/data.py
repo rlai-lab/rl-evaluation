@@ -69,8 +69,10 @@ def make_wide_format(df: pd.DataFrame, hypers: Set[str], metrics: Set[str], seed
     if is_wide_format(df, metrics, seed_col):
         return df
 
-    to_np = lambda x: np.array(list(x))
-    op = { c: to_np for c in metrics }
+    op = {
+        c: lambda x: np.array(list(x))
+        for c in metrics
+    }
 
     df = df.groupby(list(hypers)).agg(op).reset_index()
     return df
