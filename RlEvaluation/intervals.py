@@ -1,7 +1,7 @@
 import numpy as np
 from numba import prange
-from RlEvaluation._utils.data import compileReducer, Reducer
-from RlEvaluation._utils.jit import try2pjit
+from rlevaluation._utils.data import compileReducer, Reducer
+from rlevaluation._utils.jit import try2pjit
 
 RandomState = np.random.RandomState
 

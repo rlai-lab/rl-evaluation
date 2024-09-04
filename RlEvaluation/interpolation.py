@@ -3,7 +3,7 @@ import pandas as pd
 
 from typing import Callable, Tuple
 
-import RlEvaluation._utils.numba as nbu
+import rlevaluation._utils.numba as nbu
 
 
 Interpolation = Callable[[np.ndarray, np.ndarray], Tuple[np.ndarray, np.ndarray]]

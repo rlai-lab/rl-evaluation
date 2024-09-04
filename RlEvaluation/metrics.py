@@ -1,6 +1,6 @@
 import pandas as pd
 
-from RlEvaluation.config import DataDefinition, maybe_global
+from rlevaluation.config import DataDefinition, maybe_global
 
 def add_step_weighted_return(
     df: pd.DataFrame,

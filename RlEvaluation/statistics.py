@@ -1,6 +1,6 @@
 import enum
 import numpy as np
-import RlEvaluation.backend.statistics as bs
+import rlevaluation.backend.statistics as bs
 
 from typing import Any, List
 

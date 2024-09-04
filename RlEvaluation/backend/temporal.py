@@ -3,8 +3,8 @@ import numpy as np
 from numba import prange
 from typing import Any, Tuple, NamedTuple
 
-import RlEvaluation.backend.statistics as bs
-import RlEvaluation._utils.numba as nbu
+import rlevaluation.backend.statistics as bs
+import rlevaluation._utils.numba as nbu
 
 
 # ------------------------

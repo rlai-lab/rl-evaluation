@@ -2,7 +2,7 @@ import unittest
 import numpy as np
 import pandas as pd
 
-from RlEvaluation._utils.data import normalizeDataType, make_wide_format, is_wide_format
+from rlevaluation._utils.data import normalizeDataType, make_wide_format, is_wide_format
 from tests.test_utils.mock_data import generate_split_over_seed
 
 class TestData(unittest.TestCase):

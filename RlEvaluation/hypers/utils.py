@@ -1,10 +1,10 @@
 import numpy as np
 import pandas as pd
-import RlEvaluation._utils.numba as nbu
-import RlEvaluation._utils.numpy as npu
+import rlevaluation._utils.numba as nbu
+import rlevaluation._utils.numpy as npu
 
 from typing import Any, Dict, Tuple, NamedTuple
-from RlEvaluation.config import DataDefinition, maybe_global
+from rlevaluation.config import DataDefinition, maybe_global
 
 
 def group_measurements(df: pd.DataFrame, metric: str, data_definition: DataDefinition | None = None):

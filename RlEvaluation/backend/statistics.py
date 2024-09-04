@@ -1,6 +1,6 @@
 import numpy as np
 import numba as nb
-import RlEvaluation._utils.numba as nbu
+import rlevaluation._utils.numba as nbu
 
 from scipy.stats import binom
 from typing import Any, Callable, List, NamedTuple, Tuple

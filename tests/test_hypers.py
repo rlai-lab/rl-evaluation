@@ -1,8 +1,8 @@
 import unittest
 import pandas as pd
 
-from RlEvaluation.hypers import select_best_hypers, Preference
-from RlEvaluation.config import data_definition
+from rlevaluation.hypers import select_best_hypers, Preference
+from rlevaluation.config import data_definition
 
 class TestHypers(unittest.TestCase):
     def test_select_best_hypers(self):
