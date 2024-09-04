@@ -24,10 +24,10 @@ authors = [
     {name = "Andy Patterson", email = "andnpatterson@gmail.com"},
 ]
 dependencies = [
-    "pandas>=1.5.3",
-    "numba>=0.57.0",
-    "numpy>=1.23.5",
-    "scipy>=1.9.3",
+    "pandas~=2.2",
+    "numba~=0.57",
+    "numpy~=2.0",
+    "scipy~=1.9",
 ]
 requires-python = ">=3.11"
 readme = "README.md"
@@ -42,5 +42,5 @@ dev = [
     "commitizen",
     "pre-commit",
     "matplotlib",
-    "pyright>=1.1.324",
+    "pyright~=1.1",
 ]
