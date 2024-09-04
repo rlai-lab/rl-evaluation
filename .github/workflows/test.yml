@@ -11,20 +11,26 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.11"]
+        python-version: ["3.10", "3.11", "3.12"]
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up PDM
-      uses: pdm-project/setup-pdm@v3
+    # setup the repository
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
+        cache: 'pip'
 
-    - name: Install dependencies
-      run: |
-        pdm install
+    - run: |
+        python -m venv .venv
+        source .venv/bin/activate
+        pip install uv
+        uv pip compile --extra=dev pyproject.toml -o requirements.txt
+        uv pip sync requirements.txt
+
+    - run: echo "$PWD/.venv/bin" >> $GITHUB_PATH
 
     - name: Test
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: pdm run ./scripts/run_tests.sh
+      run: ./scripts/run_tests.sh

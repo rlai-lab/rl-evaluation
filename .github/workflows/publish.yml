@@ -14,19 +14,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - run: git fetch --prune --unshallow
-    - name: Set up PDM
-      uses: pdm-project/setup-pdm@v3
+    # setup the repository
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v5
       with:
-        python-version: '3.11'
+        python-version: 3.11
+        cache: 'pip'
 
-    - name: Install dependencies
-      run: |
-        pdm install
+    - run: |
+        python -m venv .venv
+        source .venv/bin/activate
+        pip install uv
+        uv pip compile --extra=dev pyproject.toml -o requirements.txt
+        uv pip sync requirements.txt
+
+    - run: echo "$PWD/.venv/bin" >> $GITHUB_PATH
 
     - name: Publish
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
-      run: pdm run ./scripts/publish.sh
+      run: ./scripts/publish.sh
