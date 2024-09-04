@@ -102,15 +102,15 @@ def tolerance_interval_curve(
     beta: float = 0.9,
 ):
     n = data.shape[0]
-    l, u = get_tolerance_indices(n, alpha, beta)
+    lo, up = get_tolerance_indices(n, alpha, beta)
 
     out = np.empty((2, data.shape[1]))
 
     for i in range(data.shape[1]):
         s = np.sort(data[:, i])
 
-        out[0, i] = s[l]
-        out[1, i] = s[u]
+        out[0, i] = s[lo]
+        out[1, i] = s[up]
 
     return ToleranceIntervalCurveResult(
         ti=out
@@ -133,14 +133,14 @@ def get_tolerance_indices(n: int, alpha: float, beta: float):
 
     # figure out indices
     if nu % 2 == 0:
-        l = int(nu / 2)
-        u = int(n - (nu / 2)) - 1
+        lo = int(nu / 2)
+        up = int(n - (nu / 2)) - 1
     else:
         nu1 = (nu / 2) - (1 / 2)
-        l = int(nu1)
-        u = int(n - (nu1 + 1))
+        lo = int(nu1)
+        up = int(n - (nu1 + 1))
 
-    return l, u
+    return lo, up
 
 def ppf(n: int, alpha: float, beta: float):
     return binom.ppf(1 - alpha, n, beta)
