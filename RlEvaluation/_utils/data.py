@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 from typing import Callable, Sequence, Set, Union
-from RlEvaluation._utils.jit import try2jit_no_cache
+from rlevaluation._utils.jit import try2jit_no_cache
 
 Data = Union[np.ndarray, pd.DataFrame, pd.Series]
 Numeric = Union[np.ndarray, float]

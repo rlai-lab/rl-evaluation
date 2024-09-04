@@ -1,6 +1,6 @@
 import numpy as np
-from RlEvaluation.hypers.api import HyperSelectionResult
-from RlEvaluation.config import DataDefinition, maybe_global
+from rlevaluation.hypers.api import HyperSelectionResult
+from rlevaluation.config import DataDefinition, maybe_global
 
 
 def pretty_print(result: HyperSelectionResult, d: DataDefinition | None = None):

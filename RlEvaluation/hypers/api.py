@@ -4,13 +4,13 @@ import pandas as pd
 from numba.typed import List as NList
 from typing import Any, List, Tuple, NamedTuple
 
-from RlEvaluation.config import DataDefinition, maybe_global
-from RlEvaluation.statistics import Statistic
-from RlEvaluation.temporal import TimeSummary
+from rlevaluation.config import DataDefinition, maybe_global
+from rlevaluation.statistics import Statistic
+from rlevaluation.temporal import TimeSummary
 
-from RlEvaluation.hypers.interface import Preference
-from RlEvaluation.hypers.simulation import bootstrap_hyper_selection
-from RlEvaluation.hypers.utils import group_measurements
+from rlevaluation.hypers.interface import Preference
+from rlevaluation.hypers.simulation import bootstrap_hyper_selection
+from rlevaluation.hypers.utils import group_measurements
 
 def select_best_hypers(
     df: pd.DataFrame,

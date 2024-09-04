@@ -6,13 +6,13 @@ import numpy as np
 import pandas as pd
 
 from typing import Any, List, Sequence, Tuple
-from RlEvaluation.config import DataDefinition, maybe_global
-from RlEvaluation.interpolation import Interpolation
-from RlEvaluation.statistics import Statistic
-from RlEvaluation.utils.pandas import subset_df
+from rlevaluation.config import DataDefinition, maybe_global
+from rlevaluation.interpolation import Interpolation
+from rlevaluation.statistics import Statistic
+from rlevaluation.utils.pandas import subset_df
 
-import RlEvaluation.backend.statistics as bs
-import RlEvaluation.backend.temporal as bt
+import rlevaluation.backend.statistics as bs
+import rlevaluation.backend.temporal as bt
 
 # ------------------------
 # -- Temporal Summaries --
