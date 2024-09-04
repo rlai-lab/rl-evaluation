@@ -8,9 +8,10 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
+        os: [ubuntu-latest, macos-latest]
         python-version: ["3.11", "3.12"]
 
     steps:
@@ -30,7 +31,15 @@ jobs:
 
     - run: echo "$PWD/.venv/bin" >> $GITHUB_PATH
 
-    - name: Test
-      env:
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: ./scripts/run_tests.sh
+    - run: pytest tests/ --junitxml=junit/test-results-${{ matrix.os }}-${{ matrix.python-version }}.xml --cov=ml_instrumentation --cov-report=html:coverage/cov-${{ matrix.os }}-${{ matrix.python-version }}.html
+
+    - name: Upload pytest test results
+      uses: actions/upload-artifact@v4
+      with:
+        name: pytest-results-${{ matrix.os }}-${{ matrix.python-version }}
+        path: |
+          junit/test-results-${{ matrix.os }}-${{ matrix.python-version }}.xml
+          coverage/cov-${{ matrix.os }}-${{ matrix.python-version }}.html
+
+        # Use always() to always run this step to publish test results when there are test failures
+      if: ${{ always() }}
