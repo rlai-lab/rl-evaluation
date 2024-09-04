@@ -37,6 +37,8 @@ license = {text = "MIT"}
 dev = [
     "pip",
     "ruff",
+    "pytest",
+    "pytest-cov",
     "commitizen",
     "pre-commit",
     "matplotlib",
