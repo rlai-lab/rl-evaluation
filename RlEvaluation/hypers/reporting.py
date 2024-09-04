@@ -21,7 +21,7 @@ def pretty_print_hyper_selection_result(result: HyperSelectionResult, d: DataDef
     # best hypers
     out += 'Best configuration setting:\n'
     out += '---------------------------\n'
-    for hyper, value in zip(cols, result.best_configuration):
+    for hyper, value in zip(cols, result.best_configuration, strict=True):
         if isinstance(value, float) and np.isnan(value): continue
         ws = 4 + col_len - len(hyper)
         out += f'{hyper}:' + ' ' * ws

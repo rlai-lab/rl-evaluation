@@ -32,7 +32,7 @@ def subset_df(df: pd.DataFrame, cols: Sequence[str], vals: Sequence[Any]):
 
 
 def build_mask(df: pd.DataFrame, cols: Sequence[str], vals: Sequence[Any]):
-    it = zip(cols, vals)
+    it = zip(cols, vals, strict=True)
     mask = np.ones(len(df), dtype=bool)
     for c, v in it:
         mask = mask & ((df[c] == v) | df[c].isna())
