@@ -5,11 +5,16 @@ version = "1.3.1"
 tag_format = "$version"
 version_files = ["pyproject.toml"]
 
-[tool.pdm]
-[[tool.pdm.source]]
-url = "https://pypi.org/simple"
-verify_ssl = true
-name = "pypi"
+[tool.ruff.lint]
+select = ['F', 'E', 'W', 'B']
+ignore = ['E501', 'E701']
+
+[tool.pyright]
+include = ['src']
+venvPath = '.'
+venv = '.venv'
+typeCheckingMode = 'standard'
+useLibraryCodeForTypes = true
 
 [tool.pdm.dev-dependencies]
 dev = [
@@ -38,10 +43,16 @@ dependencies = [
     "numpy>=1.23.5",
     "scipy>=1.9.3",
 ]
-requires-python = ">=3.11"
+requires-python = ">=3.10"
 readme = "README.md"
 license = {text = "MIT"}
 
-[build-system]
-requires = ["pdm-pep517>=1.0"]
-build-backend = "pdm.pep517.api"
+[project.optional-dependencies]
+dev = [
+    "pip",
+    "ruff",
+    "commitizen",
+    "pre-commit",
+    "matplotlib",
+    "pyright>=1.1.324",
+]
