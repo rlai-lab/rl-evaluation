@@ -24,6 +24,7 @@ authors = [
     {name = "Andy Patterson", email = "andnpatterson@gmail.com"},
 ]
 dependencies = [
+    "polars~=1.6",
     "pandas~=2.2",
     "numba~=0.57",
     "numpy~=2.0",
