@@ -1,5 +1,5 @@
 import numpy as np
-import pandas as pd
+import polars as pl
 import rlevaluation._utils.numba as nbu
 import rlevaluation._utils.numpy as npu
 
@@ -7,7 +7,7 @@ from typing import Any, Dict, Tuple, NamedTuple
 from rlevaluation.config import DataDefinition, maybe_global
 
 
-def group_measurements(df: pd.DataFrame, metric: str, data_definition: DataDefinition | None = None):
+def group_measurements(df: pl.DataFrame, metric: str, data_definition: DataDefinition | None = None):
     dd = maybe_global(data_definition)
 
     idx2hypers: Dict[int, Any] = {}
@@ -15,12 +15,12 @@ def group_measurements(df: pd.DataFrame, metric: str, data_definition: DataDefin
 
     cols = set(dd.hyper_cols).intersection(df.columns)
 
-    for i, (n, group) in enumerate(df.groupby(list(cols), dropna=False)):
+    for i, (n, group) in enumerate(df.group_by(list(cols))):
         idx2hypers[i] = n
 
         seed_data = []
-        for _, run_data in group.groupby(dd.seed_col):
-            seed_data.append(run_data[metric].dropna().to_numpy(dtype=np.float64))
+        for _, run_data in group.group_by(dd.seed_col):
+            seed_data.append(run_data[metric].to_numpy())
 
         idx2measurements[i] = npu.pad_stack(seed_data, fill_value=np.nan)
 
