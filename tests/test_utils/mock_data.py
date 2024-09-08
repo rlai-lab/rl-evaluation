@@ -1,3 +1,4 @@
+from typing import Any, Dict
 import numpy as np
 import pandas as pd
 
@@ -25,3 +26,9 @@ def generate_split_over_seed():
         df.loc[i] = [a, opt, r, res]
 
     return df
+
+
+def dict_product(**kwargs: Dict[str, Any]):
+    keys = kwargs.keys()
+    for val in product(*kwargs.values()):
+        yield dict(zip(keys, val, strict=True))

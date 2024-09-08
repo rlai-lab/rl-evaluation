@@ -28,22 +28,22 @@ class TimeSummary(enum.Enum):
 # ---------------------
 
 def extract_learning_curves(
-    df: pd.DataFrame,
-    hyper_vals: Tuple[Any, ...],
+    df: pl.DataFrame,
+    hyper_vals: Dict[str, Any],
     metric: str,
     data_definition: DataDefinition | None = None,
     interpolation: Interpolation | None = None,
 ):
     dd = maybe_global(data_definition)
     cols = set(dd.hyper_cols).intersection(df.columns)
-    sub = subset_df(df, list(cols), hyper_vals)
 
-    groups = sub.groupby(dd.seed_col, dropna=False)
+    sub = df.filter(**du.subset(hyper_vals, cols))
+    groups = sub.group_by(dd.seed_col)
 
     xs: List[np.ndarray] = []
     ys: List[np.ndarray] = []
     for _, group in groups:
-        non_na = group[group[metric].notna()]
+        non_na = group.drop_nulls(subset=metric)
         x = non_na[dd.time_col].to_numpy().astype(np.int64)
         y = non_na[metric].to_numpy().astype(np.float64)
 
@@ -62,8 +62,8 @@ def extract_learning_curves(
     return xs, ys
 
 def extract_multiple_learning_curves(
-    df: pd.DataFrame,
-    hyper_vals: Sequence[Tuple[Any, ...]],
+    df: pl.DataFrame,
+    hyper_vals: Sequence[Dict[str, Any]],
     metric: str,
     data_definition: DataDefinition | None = None,
     interpolation: Interpolation | None = None,
