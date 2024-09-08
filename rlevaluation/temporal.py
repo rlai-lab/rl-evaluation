@@ -3,13 +3,13 @@
 
 import enum
 import numpy as np
-import pandas as pd
+import polars as pl
+import rlevaluation._utils.dict as du
 
-from typing import Any, List, Sequence, Tuple
+from typing import Any, Dict, List, Sequence
 from rlevaluation.config import DataDefinition, maybe_global
 from rlevaluation.interpolation import Interpolation
 from rlevaluation.statistics import Statistic
-from rlevaluation.utils.pandas import subset_df
 
 import rlevaluation.backend.statistics as bs
 import rlevaluation.backend.temporal as bt
