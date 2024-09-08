@@ -1,9 +1,9 @@
-import pandas as pd
+import polars as pl
 
 from rlevaluation.config import DataDefinition, maybe_global
 
 def add_step_weighted_return(
-    df: pd.DataFrame,
+    df: pl.DataFrame,
     episode_len_col: str = 'steps',
     return_col: str = 'return',
     d: DataDefinition | None = None,
@@ -14,11 +14,11 @@ def add_step_weighted_return(
     def red(sub):
         return sub[return_col] * (sub[episode_len_col] / sub[d.time_col].max())
 
-    groups = df.groupby(cols, dropna=False, as_index=False, group_keys=False)
-    df['step_weighted_return'] = groups.apply(red)
+    groups = df.group_by(cols)
+    df['step_weighted_return'] = groups.map_groups(red)
 
 
-def _get_data_def_columns(df: pd.DataFrame, d: DataDefinition):
+def _get_data_def_columns(df: pl.DataFrame, d: DataDefinition):
     cols = []
 
     if d.algorithm_col in df.columns:

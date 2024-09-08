@@ -1,5 +1,5 @@
 import numpy as np
-import pandas as pd
+import polars as pl
 
 from typing import Callable, Tuple
 
@@ -26,7 +26,7 @@ def compute_step_return(t: np.ndarray, m: np.ndarray, max_length: int) -> Tuple[
 
     return x, out
 
-def compute_step_return_df(df: pd.DataFrame, time: str, metric: str, max_length: int):
+def compute_step_return_df(df: pl.DataFrame, time: str, metric: str, max_length: int):
     t = df[time].to_numpy()
     m = df[metric].to_numpy()
 
