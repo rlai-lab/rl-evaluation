@@ -7,8 +7,8 @@ class DataDefinition:
     hyper_cols: List[str]
     seed_col: str
     time_col: str
-    environment_col: str
-    algorithm_col: str
+    environment_col: str | None = None
+    algorithm_col: str | None = None
 
 
 _data_def: DataDefinition | None = None
