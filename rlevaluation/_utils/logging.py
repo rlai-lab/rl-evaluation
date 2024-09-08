@@ -1,3 +1,3 @@
 import logging
 
-logger = logging.getLevelName('RlEvaluation')
+logger = logging.getLogger('RlEvaluation')
