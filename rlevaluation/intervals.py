@@ -3,8 +3,6 @@ from numba import prange
 from rlevaluation._utils.data import compileReducer, Reducer
 from rlevaluation._utils.jit import try2pjit
 
-RandomState = np.random.RandomState
-
 def bootstrap(data: np.ndarray, statistic: Reducer = np.mean, coverage: float = 0.95, bootstraps: int = 2000, rng: np.random.Generator | None = None):
     rng = rng or np.random.default_rng()
     assert data.ndim == 2
@@ -27,7 +25,7 @@ def _bootstrap(data: np.ndarray, statistic: Reducer, coverage: float, bootstraps
     for i in prange(measurements):
         bs = np.empty(bootstraps)
         for j in range(bootstraps):
-            sub = np.random.choice(data[:, i], size=samples, replace=True)
+            sub = rng.choice(data[:, i], size=samples, replace=True)
             bs[j] = statistic(sub)
 
         out[0, i] = np.percentile(bs, 100 * alpha)
