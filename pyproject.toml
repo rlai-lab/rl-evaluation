@@ -10,7 +10,7 @@ select = ['F', 'E', 'W', 'B']
 ignore = ['E501', 'E701']
 
 [tool.pyright]
-include = ['rlevaluation']
+include = ['rlevaluation', 'tests']
 venvPath = '.'
 venv = '.venv'
 typeCheckingMode = 'standard'
