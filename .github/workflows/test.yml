@@ -31,7 +31,7 @@ jobs:
 
     - run: echo "$PWD/.venv/bin" >> $GITHUB_PATH
 
-    - run: pytest tests/ --junitxml=junit/test-results-${{ matrix.os }}-${{ matrix.python-version }}.xml --cov=ml_instrumentation --cov-report=html:coverage/cov-${{ matrix.os }}-${{ matrix.python-version }}.html
+    - run: pytest tests/ --junitxml=junit/test-results-${{ matrix.os }}-${{ matrix.python-version }}.xml --cov=rlevaluation --cov-report=html:coverage/cov-${{ matrix.os }}-${{ matrix.python-version }}.html
 
     - name: Upload pytest test results
       uses: actions/upload-artifact@v4
