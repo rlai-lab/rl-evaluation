@@ -2,7 +2,7 @@ import numpy as np
 import polars as pl
 
 from numba.typed import List as NList
-from typing import Any, List, Tuple, NamedTuple
+from typing import Any, NamedTuple
 
 from rlevaluation.config import DataDefinition, maybe_global
 from rlevaluation.statistics import Statistic
@@ -51,11 +51,11 @@ def select_best_hypers(
     )
 
 class HyperSelectionResult(NamedTuple):
-    best_configuration: Tuple[Any, ...]
+    best_configuration: tuple[Any, ...]
     best_score: float
 
-    uncertainty_set_configurations: List[Tuple[Any, ...]]
+    uncertainty_set_configurations: list[tuple[Any, ...]]
     uncertainty_set_probs: np.ndarray
     sample_stat: float
-    ci: Tuple[float, float]
-    config_params: List[str]
+    ci: tuple[float, float]
+    config_params: list[str]

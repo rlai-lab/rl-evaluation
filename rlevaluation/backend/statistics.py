@@ -2,8 +2,9 @@ import numpy as np
 import numba as nb
 import rlevaluation._utils.numba as nbu
 
+from collections.abc import Callable
 from scipy.stats import binom
-from typing import Any, Callable, List, NamedTuple, Tuple
+from typing import Any, NamedTuple
 
 # ----------------------
 # -- Basic Statistics --
@@ -51,7 +52,7 @@ def percentile_bootstrap_ci(
 @nbu.njit
 def stratified_percentile_bootstrap_ci(
     rng: np.random.Generator,
-    a: np.ndarray | List[np.ndarray],
+    a: np.ndarray | list[np.ndarray],
     class_probs: np.ndarray,
     statistic: Callable[[np.ndarray], Any] = mean,
     alpha: float = 0.05,
@@ -89,7 +90,7 @@ def stratified_percentile_bootstrap_ci(
 
 class PercentileBootstrapResult(NamedTuple):
     sample_stat: float
-    ci: Tuple[float, float]
+    ci: tuple[float, float]
 
 # -------------------------
 # -- Tolerance Intervals --

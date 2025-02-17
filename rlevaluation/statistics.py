@@ -2,7 +2,7 @@ import enum
 import numpy as np
 import rlevaluation.backend.statistics as bs
 
-from typing import Any, List
+from typing import Any
 
 
 # ----------------------
@@ -37,7 +37,7 @@ def percentile_bootstrap_ci(
 
 def stratified_percentile_bootstrap_ci(
     rng: np.random.Generator,
-    a: np.ndarray | List[np.ndarray],
+    a: np.ndarray | list[np.ndarray],
     class_probs: np.ndarray,
     statistic: Statistic = Statistic.mean,
     alpha: float = 0.05,

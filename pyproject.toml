@@ -33,14 +33,14 @@ requires-python = ">=3.11"
 readme = "README.md"
 license = {text = "MIT"}
 
-[project.optional-dependencies]
+[dependency-groups]
 dev = [
-    "pip",
-    "ruff",
-    "pytest",
-    "pytest-cov",
-    "commitizen",
-    "pre-commit",
-    "matplotlib",
-    "pyright~=1.1",
+    "commitizen>=4.2.1",
+    "matplotlib>=3.10.0",
+    "pip>=25.0.1",
+    "pre-commit>=4.1.0",
+    "pyright>=1.1.394",
+    "pytest>=8.3.4",
+    "pytest-cov>=6.0.0",
+    "ruff>=0.9.6",
 ]

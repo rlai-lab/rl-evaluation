@@ -1,4 +1,4 @@
-from typing import Any, Dict
+from typing import Any
 import numpy as np
 import polars as pl
 
@@ -35,7 +35,7 @@ def learning_curve_data():
 
     return pl.DataFrame(raw_data)
 
-def dict_product(**kwargs: Dict[str, Any]):
+def dict_product(**kwargs: dict[str, Any]):
     keys = kwargs.keys()
     for val in product(*kwargs.values()):
         yield dict(zip(keys, val, strict=True))

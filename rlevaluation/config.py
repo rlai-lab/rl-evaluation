@@ -1,10 +1,9 @@
+from collections.abc import Iterable
 import dataclasses
-
-from typing import Iterable, List
 
 @dataclasses.dataclass
 class DataDefinition:
-    hyper_cols: List[str]
+    hyper_cols: list[str]
     seed_col: str
     time_col: str
     environment_col: str | None = None

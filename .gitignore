@@ -5,6 +5,7 @@ __pycache__/
 .token
 .pdm-python
 .venv
+uv.lock
 
 env/
 dist/

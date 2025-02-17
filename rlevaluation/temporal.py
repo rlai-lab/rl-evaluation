@@ -1,12 +1,13 @@
 # TODO: steady-state performance
 #  - Fit a model (piecewise linear with one node?) and report bias unit for second part
 
+from collections.abc import Sequence
 import enum
 import numpy as np
 import polars as pl
 import rlevaluation._utils.dict as du
 
-from typing import Any, Dict, List, Sequence
+from typing import Any
 from rlevaluation.config import DataDefinition, maybe_global
 from rlevaluation.interpolation import Interpolation
 from rlevaluation.statistics import Statistic
@@ -29,7 +30,7 @@ class TimeSummary(enum.Enum):
 
 def extract_learning_curves(
     df: pl.DataFrame,
-    hyper_vals: Dict[str, Any],
+    hyper_vals: dict[str, Any],
     metric: str,
     data_definition: DataDefinition | None = None,
     interpolation: Interpolation | None = None,
@@ -40,8 +41,8 @@ def extract_learning_curves(
     sub = df.filter(**du.subset(hyper_vals, cols))
     groups = sub.group_by(dd.seed_col)
 
-    xs: List[np.ndarray] = []
-    ys: List[np.ndarray] = []
+    xs: list[np.ndarray] = []
+    ys: list[np.ndarray] = []
     for _, group in groups:
         non_na = group.drop_nulls(subset=metric)
         x = non_na[dd.time_col].to_numpy().astype(np.int64)
@@ -63,7 +64,7 @@ def extract_learning_curves(
 
 def extract_multiple_learning_curves(
     df: pl.DataFrame,
-    hyper_vals: Sequence[Dict[str, Any]],
+    hyper_vals: Sequence[dict[str, Any]],
     metric: str,
     data_definition: DataDefinition | None = None,
     interpolation: Interpolation | None = None,

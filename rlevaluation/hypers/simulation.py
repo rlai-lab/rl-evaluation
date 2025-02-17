@@ -2,7 +2,7 @@ import numpy as np
 import rlevaluation._utils.numba as nbu
 
 from numba.typed import List as NList
-from typing import Any, NamedTuple, Tuple
+from typing import Any, NamedTuple
 
 from rlevaluation.backend.statistics import stratified_percentile_bootstrap_ci
 from rlevaluation.hypers.utils import idx_preference
@@ -15,7 +15,7 @@ class BootstrapHyperResult(NamedTuple):
     uncertainty_set_idxs: np.ndarray
     uncertainty_set_probs: np.ndarray
     sample_stat: float
-    ci: Tuple[float, float]
+    ci: tuple[float, float]
 
 
 @nbu.njit
