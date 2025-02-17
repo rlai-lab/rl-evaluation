@@ -1,16 +1,15 @@
+from collections.abc import Callable
 import numpy as np
 import polars as pl
-
-from typing import Callable, Tuple
 
 import rlevaluation._utils.numba as nbu
 
 
-Interpolation = Callable[[np.ndarray, np.ndarray], Tuple[np.ndarray, np.ndarray]]
+Interpolation = Callable[[np.ndarray, np.ndarray], tuple[np.ndarray, np.ndarray]]
 
 
 @nbu.njit
-def compute_step_return(t: np.ndarray, m: np.ndarray, max_length: int) -> Tuple[np.ndarray, np.ndarray]:
+def compute_step_return(t: np.ndarray, m: np.ndarray, max_length: int) -> tuple[np.ndarray, np.ndarray]:
     assert t.shape == m.shape
     assert np.all(t[1:] > t[:-1]), 'Time column should be strictly increasing'
 

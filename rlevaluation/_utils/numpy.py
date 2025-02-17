@@ -1,6 +1,6 @@
 import numpy as np
 
-from typing import Sequence
+from collections.abc import Sequence
 
 def pad_stack(arrs: Sequence[np.ndarray], fill_value: float) -> np.ndarray:
     max_len = max(a.shape[0] for a in arrs)

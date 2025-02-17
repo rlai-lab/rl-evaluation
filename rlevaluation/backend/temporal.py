@@ -1,7 +1,7 @@
 import numpy as np
 
 from numba import prange
-from typing import Any, Tuple, NamedTuple
+from typing import Any, NamedTuple
 
 import rlevaluation.backend.statistics as bs
 import rlevaluation._utils.numba as nbu
@@ -59,4 +59,4 @@ def curve_percentile_bootstrap_ci(
 
 class CurvePercentileBootstrapResult(NamedTuple):
     sample_stat: np.ndarray
-    ci: Tuple[np.ndarray, np.ndarray]
+    ci: tuple[np.ndarray, np.ndarray]

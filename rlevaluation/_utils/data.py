@@ -1,8 +1,8 @@
+from collections.abc import Callable, Sequence
 import numpy as np
-from typing import Callable, Sequence, Union
 from rlevaluation._utils.jit import try2jit_no_cache
 
-Numeric = Union[np.ndarray, float]
+Numeric = np.ndarray | float
 Reducer = Callable[[np.ndarray], Numeric]
 
 def compileReducer(f: Reducer):
