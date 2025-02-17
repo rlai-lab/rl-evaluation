@@ -10,17 +10,17 @@ jobs:
     steps:
       # setup the repository
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v4
+      - uses: actions/setup-python@v5
         with:
-          python-version: 3.11
-          cache: 'pip'
+          python-version: 3.12
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
 
       - run: |
-          python -m venv .venv
+          uv venv
+          uv sync
           source .venv/bin/activate
-          pip install uv
-          uv pip compile --extra=dev pyproject.toml -o requirements.txt
-          uv pip sync requirements.txt
 
       - run: echo "$PWD/.venv/bin" >> $GITHUB_PATH
 
