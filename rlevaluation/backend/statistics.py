@@ -114,12 +114,29 @@ def tolerance_interval_curve(
         out[1, i] = s[up]
 
     return ToleranceIntervalCurveResult(
-        ti=out
+        tol=out,
     )
 
 
 class ToleranceIntervalCurveResult(NamedTuple):
-    ti: np.ndarray
+    tol: np.ndarray
+
+
+@nbu.njit
+def tolerance_interval(
+    data: np.ndarray,
+    alpha: float = 0.05,
+    beta: float = 0.9,
+):
+    n = data.shape[0]
+    lo, up = get_tolerance_indices(n, alpha, beta)
+
+    s = np.sort(data)
+    return ToleranceIntervalResult((s[lo], s[up]))
+
+
+class ToleranceIntervalResult(NamedTuple):
+    tol: tuple[float, float]
 
 
 @nbu.njit
