@@ -1,0 +1,36 @@
+name: tag
+
+on:
+  workflow_run:
+    workflows: ['test']
+    branches: [main]
+    types:
+      - completed
+
+permissions:
+  contents: read
+
+jobs:
+  tag:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && !startsWith(github.event.head_commit.message, 'bump:')
+    steps:
+      - name: Generate a token
+        id: generate-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ vars.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ steps.generate-token.outputs.token }}
+
+      - id: cz
+        name: Create bump commit, tag, and changelog
+        uses: commitizen-tools/commitizen-action@master
+        with:
+          github_token: ${{ steps.generate-token.outputs.token }}
+          actor: x-access-token
