@@ -35,6 +35,17 @@ def extract_learning_curves(
     data_definition: DataDefinition | None = None,
     interpolation: Interpolation | None = None,
 ):
+    """
+    Takes a dataframe of shape:
+      stepsize  seed  metric  time
+      0.01      0     0.1     1
+      0.01      0     0.2     2
+      0.01      0     0.3     3
+
+    and extracts a learning curve per seed for the given hyperparameters,
+    where a "learning curve" is defined by a numpy array for x
+    values and another y values.
+    """
     dd = maybe_global(data_definition)
     cols = set(dd.hyper_cols).intersection(df.columns)
 
@@ -69,6 +80,18 @@ def extract_multiple_learning_curves(
     data_definition: DataDefinition | None = None,
     interpolation: Interpolation | None = None,
 ):
+    """
+    Extracts a learning curve for multiple hyperparameter configurations
+    from a dataframe of shape
+      stepsize  seed  metric  time
+      0.01      0     0.1     1
+      0.01      0     0.2     2
+      0.01      0     0.3     3
+
+    returning two lists of numpy arrays, one for x and one for y.
+    Each list of of length num_seeds * num_hypers (assuming same
+    number of seeds per hyperparameter configuration).
+    """
     out_xs = []
     out_ys = []
 
@@ -97,6 +120,11 @@ def curve_percentile_bootstrap_ci(
     alpha: float = 0.05,
     iterations: int = 10000,
 ):
+    """
+    Produces the (1-alpha) confidence interval for each point in a learning
+    curve using the percentile bootstrap method --- a non-parametric CI that
+    does not require any assumptions on the underlying data.
+    """
     f: Any = statistic.value
     return bt.curve_percentile_bootstrap_ci(
         rng=rng,
@@ -112,6 +140,13 @@ def curve_tolerance_interval(
     alpha: float = 0.05,
     beta: float = 0.9,
 ):
+    """
+    Produces the (1-alpha) confidence level beta-tolerance interval for each point
+    across a set of learning curves. The tolerance interval states that with (1-alpha)
+    confidence, this interval captures beta proportion of the data.
+
+    By default, this corresponds to 90% data coverage with 95% confidence.
+    """
     return bs.tolerance_interval_curve(
         y,
         alpha,

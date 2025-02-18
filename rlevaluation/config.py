@@ -21,6 +21,12 @@ def data_definition(
 
     make_global: bool = False,
 ) -> DataDefinition:
+    """
+    Configure the library's global data accessors and assumptions.
+    Call the "seed" column "samples" or call the time column "time" vs "frame",
+    etc., then this can be configured here and automatically used
+    throughout the public api.
+    """
     d = DataDefinition(
         hyper_cols=list(sorted(hyper_cols)),
         seed_col=seed_col,
