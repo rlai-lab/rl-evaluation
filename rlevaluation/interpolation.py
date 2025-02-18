@@ -10,6 +10,14 @@ Interpolation = Callable[[np.ndarray, np.ndarray], tuple[np.ndarray, np.ndarray]
 
 @nbu.njit
 def compute_step_return(t: np.ndarray, m: np.ndarray, max_length: int) -> tuple[np.ndarray, np.ndarray]:
+    """
+    Perform a variable copy-forward interpolation of a metric, with the copy-forward
+    horizon dynamically determined by the time column.
+
+    Given a pair of (return_value, steps in episode), this produces the step-weighted-return.
+    Conveniently, this produces a consistent length x, y learning curve, despite the number
+    of successfully completed episodes per seed.
+    """
     assert t.shape == m.shape
     assert np.all(t[1:] > t[:-1]), 'Time column should be strictly increasing'
 
