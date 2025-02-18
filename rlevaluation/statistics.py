@@ -63,3 +63,25 @@ def stratified_percentile_bootstrap_ci(
         alpha=alpha,
         iterations=iterations,
     )
+
+
+# -------------------------
+# -- Tolerance Intervals --
+# -------------------------
+
+def tolerance_interval(
+    data: np.ndarray,
+    alpha: float = 0.05,
+    beta: float = 0.9,
+):
+    """
+    Compute the alpha-confidence, beta-tolerance interval
+    for the given data. By default, this corresponds to
+    90% data coverage with 95% confidence.
+    """
+
+    # note: this function is just a passthrough
+    # to the tolerance interval in the backend
+    # to avoid exposing backend methods in the
+    # public API
+    return bs.tolerance_interval(data, alpha, beta)
