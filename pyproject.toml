@@ -33,6 +33,18 @@ requires-python = ">=3.11"
 readme = "README.md"
 license = {text = "MIT"}
 
+classifiers = [
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+]
+
+[project.urls]
+Homepage = "https://github.com/andnp/rlevaluation"
+Documentation = "https://github.com/andnp/rlevaluation/blob/main/README.md"
+Repository = "https://github.com/andnp/rlevaluation"
+Issues = "https://github.com/andnp/rlevaluation/issues"
+Changelog = "https://github.com/andnp/rlevaluation/blob/main/CHANGELOG.md"
+
 [dependency-groups]
 dev = [
     "commitizen>=4.2.1",
