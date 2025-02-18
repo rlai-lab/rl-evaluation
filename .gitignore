@@ -6,6 +6,7 @@ __pycache__/
 .pdm-python
 .venv
 uv.lock
+*.egg-info
 
 env/
 dist/

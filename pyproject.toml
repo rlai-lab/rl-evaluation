@@ -16,6 +16,9 @@ venv = '.venv'
 typeCheckingMode = 'standard'
 useLibraryCodeForTypes = true
 
+[tool.setuptools]
+packages = ["rlevaluation"]
+
 [project]
 name = "rlevaluation"
 version = "1.1.0"
@@ -56,3 +59,7 @@ dev = [
     "pytest-cov>=6.0.0",
     "ruff>=0.9.6",
 ]
+
+[build-system]
+requires = ["setuptools >= 61.0"]
+build-backend = "setuptools.build_meta"
