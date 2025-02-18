@@ -1,3 +1,14 @@
+## 1.1.0 (2025-02-18)
+
+### Feat
+
+- add tolerance_interval to the public api
+- add public method to get tolerance interval for set of samples
+
+### Fix
+
+- remove old bootstrap ci methods
+
 ## 1.0.0 (2025-02-17)
 
 ### BREAKING CHANGE
