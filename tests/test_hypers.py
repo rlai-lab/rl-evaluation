@@ -13,4 +13,4 @@ def test_select_best_hypers():
     d = data_definition(hyper_cols=['alpha'])
 
     best = select_best_hypers(test_data, 'result', Preference.high, data_definition=d)
-    assert best.best_configuration[0] == 0.01
+    assert best.best_configuration['alpha'] == 0.01
