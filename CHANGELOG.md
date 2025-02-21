@@ -1,3 +1,9 @@
+## 1.1.1 (2025-02-21)
+
+### Fix
+
+- return hyper->value dict from hyperparam search
+
 ## 1.1.0 (2025-02-18)
 
 ### Feat
