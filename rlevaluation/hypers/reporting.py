@@ -35,14 +35,14 @@ def pretty_print_hyper_selection_result(result: HyperSelectionResult, d: DataDef
     if len(result.uncertainty_set_probs) > 1:
         out += 'Possible best configurations:\n'
         out += '-----------------------------\n'
-        for i, hyper in enumerate(cols):
-            hyper_val = result.uncertainty_set_configurations[0][i]
+        for hyper in cols:
+            hyper_val = result.uncertainty_set_configurations[0][hyper]
             if isinstance(hyper_val, float) and np.isnan(hyper_val): continue
             ws = 4 + col_len - len(hyper)
             out += f'{hyper}:' + ' ' * ws
 
             for config in result.uncertainty_set_configurations:
-                out += f'{config[i]}  '
+                out += f'{config[hyper]}  '
 
             out += '\n'
 
