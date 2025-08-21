@@ -61,7 +61,7 @@ def extract_learning_curves(
 
         idx = np.argwhere(x[1:] <= x[:-1])
 
-        if idx:
+        if idx.size > 0:
             x = x[:idx[0][0]]
             y = y[:idx[0][0]]
 
